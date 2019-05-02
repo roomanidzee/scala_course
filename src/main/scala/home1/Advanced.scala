@@ -44,9 +44,7 @@ object Advanced extends App {
 
     var counter = 0
 
-    for(i <- 0 until vec.length){
-      counter += vec(i)
-    }
+    vec.foreach(item => counter += item)
 
     counter
 
@@ -54,8 +52,18 @@ object Advanced extends App {
 
   def sumRecursive(vec: Vector[Int]): Int = {
 
-    //здесь должен быть pattern matching, но додумал только так:
-    vec.foldLeft(0)(_ + _)
+    val vecList = vec.toList
+
+    def inner(newVec: List[Int], counter: Int):Int = {
+
+      newVec match {
+        case item :: tail => inner(tail, counter + item)
+        case Nil => counter
+      }
+
+    }
+
+    inner(vecList, 0)
 
   }
 
