@@ -4,7 +4,7 @@ object Advanced extends App {
 
   // task 1: Implement the method for Vector[Int] and List[Int]
   //  sealed abstract class Addable[A] {
-  //    def sum:A
+  //    def sum:A - какие здесь входные параметры?
   //  }
   //
   //
@@ -22,6 +22,23 @@ object Advanced extends App {
   //
   //  println (s"res0 = $res0")
   //  println (s"res1 = $res1")
+
+//  sealed abstract class Addable[A] {
+//        def sum(item: A):A
+//  }
+//
+//  class MyAddable[A] () extends Addable[A] {
+//    override def sum(item: A): A = {
+//      case item: Vector[Int] => Vector(item.sum)
+//      case item: List[Int] => List(item.sum)
+//    }
+//  }
+//
+//  val myvec = Vector(1, 2, 3)
+//  val mylist = List(1, 2, 3)
+//  val inst = new MyAddable
+//
+//  val res0: List[Int] = inst.sum(mylist)
 
   // task 2: Benchmarking
 
