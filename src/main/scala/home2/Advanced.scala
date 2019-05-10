@@ -23,31 +23,28 @@ object Advanced extends App {
   //  println (s"res0 = $res0")
   //  println (s"res1 = $res1")
 
-//  sealed abstract class Addable[A] {
-//        def sum(item: A):A
-//  }
-//
-//  class MyAddable[A] () extends Addable[A] {
-//    override def sum(item: A): A = {
-//      case item: Vector[Int] => Vector(item.sum)
-//      case item: List[Int] => List(item.sum)
-//    }
-//  }
-//
-//  val myvec = Vector(1, 2, 3)
-//  val mylist = List(1, 2, 3)
-//  val inst = new MyAddable
-//
-//  val res0: List[Int] = inst.sum(mylist)
+  sealed abstract class Addable[A] {
+    def sum(item: Traversable[A]): A
+  }
 
-  // task 2: Benchmarking
+  class MyAddable[A: Numeric] extends Addable[A]{
+    override def sum(item: Traversable[A]): A = item.sum
+  }
 
-  // Choose any 3 functions from Lec1/advanced and measure their performance and memory consumption as a function of Vector size.
-  // Plot results in PyPlot as :
+  val testVec = Vector(1, 2, 3)
+  val testList = List(1, 2, 3)
+  val testMap = Map (1 -> "one",
+                     2 -> "two",
+                     3 -> "three")
 
-  // 1: Exec Time (t) vs Log(N)
-  // 2: Memory (MB) vs Log(N)
-  // where N - number of entries in the vector.
-  // Can you explain these results ?
+  val inst = new MyAddable[Int]
+
+  val res0 = inst.sum(testVec)
+  val res1 = inst.sum(testList)
+  val res2 = inst.sum(testMap.keys)
+
+  println(s"Пример для Vector: $res0")
+  println(s"Пример для List: $res1")
+  println(s"Пример для Map: $res2")
 
 }
