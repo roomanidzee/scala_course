@@ -22,9 +22,13 @@ B. (a % 3 == 0) && (a % 5 == 0) (divisible by 3 and 5)
 Использую библиотеку optional.py для корректной работы с optional
 
 """
-from typing import List
 
 from optional import Optional
+
+import random
+
+from home3.binary_tree import BinaryTree
+from home3.red_black_tree import Tree, RedBlackNode
 
 
 class HigherOrderFunctions:
@@ -44,65 +48,34 @@ class HigherOrderFunctions:
                 yield item
 
 
-# реализация деревьев
-
-class Node:
-
-    def __init__(self, value):
-        self.left = None
-        self.right = None
-        self.value = value
-
-    def __str__(self):
-
-        print(f"Node(value = {self.value}, left = {self.left}, right = {self.right})")
-
-
-class BinaryTree:
-
-    def __init__(self, root):
-        self.root = Node(root)
-
-    def _insert(self, node: Node, value):
-
-        if value < node.value:
-
-            if not node.left:
-                node.left = Node(value)
-            else:
-                self._insert(node.left, value)
-
-        else:
-
-            if not node.right:
-                node.right = Node(value)
-            else:
-                self._insert(node.right, value)
-
-    def add(self, value):
-
-        if not self.root.value:
-            self.root.value = value
-        else:
-            self._insert(self.root, value)
-
-    def __str__(self):
-
-        print(f"BinaryTree(root = {self.root}, left = {self.root.left}, right = {self.root.right})")
-
-    def get_nodes_values(self) -> List:
-        return self.get_node_value(self.root)
-
-    def get_node_value(self, node: Node) -> List:
-
-        result = [node.value]
-
-        result.extend(self.get_node_value(node.left))
-        result.extend(self.get_node_value(node.right))
-
-        return result
-
-# доделаю красно - чёрное дерево
 if __name__ == "__main__":
 
-   pass
+    hof = HigherOrderFunctions()
+
+    test_values = [random.randint(1, 1001) for i in range(1000)]
+
+    binary_tree = BinaryTree(random.randint(1, 1001))
+
+    for item in test_values:
+        binary_tree.add(item)
+
+    binary_result = binary_tree.get_tree_values()
+
+    print(f"Результат для бинарного дерева #1: "
+          f"{sum(hof.flat_map(hof.map(hof.with_filter(binary_result, lambda x: x % 2 == 0))))}")
+    print(f"Результат для бинарного дерева #2: "
+          f"{sum(hof.flat_map(hof.map(hof.with_filter(binary_result, lambda x: (x % 3 == 0) and (x % 5 == 0)))))}")
+    print(" ")
+
+    red_black_tree = Tree()
+
+    for item in test_values:
+        red_black_tree.add(RedBlackNode(item))
+
+    red_black_result = red_black_tree.get_tree_values()
+
+    print(f"Результат для красно-чёрного дерева #1: "
+          f"{sum(hof.flat_map(hof.map(hof.with_filter(red_black_result, lambda x: x % 2 == 0))))}")
+    print(f"Результат для красно-чёрного  дерева #2: "
+          f"{sum(hof.flat_map(hof.map(hof.with_filter(red_black_result, lambda x: (x % 3 == 0) and (x % 5 == 0)))))}")
+    print(" ")
